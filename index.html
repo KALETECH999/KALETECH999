@@ -1,572 +1,350 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-50">
+<html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Industrial REPE LBO Model · Institutional Edition | by Gautam Kale</title>
-
-    <!-- Tailwind JIT CDN (with forms plugin) -->
-    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: { light: '#3b82f6', DEFAULT: '#1e40af', dark: '#1e3a8a' },
-                        slate: { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1', 400: '#94a3b8', 500: '#64748b', 600: '#475569', 700: '#334155', 800: '#1e293b', 900: '#0f172a' },
-                        emerald: { 500: '#10b981', 600: '#059669' },
-                        rose: { 500: '#ef4444', 600: '#dc2626' },
-                        amber: { 500: '#f59e0b', 600: '#d97706' }
-                    }
-                }
-            }
-        }
-    </script>
-
-    <!-- Icons & Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta name="description" content="Gautam Kale. Institutional-grade underwriting, risk, and automation—designed for private equity and investment banking.">
+    <title>Gautam Kale | Quantitative Finance & Technology</title>
     
-    <!-- Chart.js & Datalabels Plugin -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
-    
-    <!-- SheetJS for Excel Export -->
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <!-- 
+      SECURITY NOTE FOR PRODUCTION: 
+      The following Content-Security-Policy should be implemented as an HTTP Header on your server (e.g., in .htaccess or Netlify/Vercel config).
+      This is far more secure than a meta tag. The values below are a template; you must generate a real SHA-256 hash for your inline script.
+      ---
+      Header set Content-Security-Policy "default-src 'self'; img-src 'self' https://images.unsplash.com https://placehold.co data:; script-src 'self' 'sha256-...' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; object-src 'none'; base-uri 'none'; form-action https://formspree.io;"
+      Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+      Header set X-Frame-Options "DENY"
+      Header set X-Content-Type-Options "nosniff"
+      Header set Referrer-Policy "strict-origin-when-cross-origin"
+    -->
 
+    <!-- SEO & Social Meta -->
+    <meta property="og:title" content="Gautam Kale — Quantitative Finance & Technology">
+    <meta property="og:description" content="Institutional-grade underwriting, risk, and automation for PE/IB.">
+    <meta property="og:image" content="https://placehold.co/1200x630/1e3a8a/ffffff?text=Gautam+Kale">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Performance & Preloads -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="/assets/headshot.webp" as="image" type="image/webp">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
-            color: #0f172a;
-        }
-        details summary::-webkit-details-marker { display: none; }
-        details[open] summary .accordion-icon { transform: rotate(180deg); }
-        .card {
-            background-color: #ffffff; border: 1px solid #e2e8f0;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.07), 0 8px 10px -6px rgba(0, 0, 0, 0.07);
-        }
-        .input-format {
-            background-color: #ffffff; border: 1px solid #e2e8f0;
-            color: #0f172a; padding: 0.5rem; border-radius: 0.375rem;
-            text-align: right; font-weight: 500;
-        }
-        .input-format:focus {
-             --tw-ring-color: rgb(59 130 246 / 0.5); border-color: #3b82f6;
-             box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
-        }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        .sidebar-link.active { background-color: #3b82f61a !important; color: #1e3a8a !important; font-weight: 600; }
-        .sidebar-link:not(.active):hover { background-color: #f8fafc; border-radius: 0.5rem; }
-        .sensitivity-heatmap { outline: 2px solid #f59e0b; outline-offset: -2px; }
-        .form-control { display: flex; flex-direction: column; gap: 0.25rem; }
+        body { font-family: 'Inter', sans-serif; background-color: #FFFFFF; color: #1E3A8A; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+        .nav-link { position: relative; transition: color 0.2s ease; }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -2px; left: 50%; transform: translateX(-50%); background-color: #D4AF37; transition: width 0.2s ease; }
+        .nav-link:hover::after { width: 80%; }
+        .btn-primary { background: linear-gradient(to right, #1E3A8A, #2B6CB0); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .btn-primary:hover, .btn-primary:focus-visible { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(30, 58, 138, 0.15); }
+        .btn-secondary { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .btn-secondary:hover, .btn-secondary:focus-visible { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .project-card { border: 1px solid #E5E7EB; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .project-card:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .reveal { opacity: 0; transform: translateY(8px); transition: opacity 0.4s ease-out, transform 0.4s ease-out; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .skip-link { position: absolute; top: -40px; left: 0; background: #1E3A8A; color: white; padding: 8px; z-index: 100; transition: top 0.3s; }
+        .skip-link:focus { top: 0; }
+        :focus-visible { outline: 2px solid #D4AF37; outline-offset: 2px; }
+        @media (prefers-reduced-motion: reduce){ .reveal, .btn-primary, .btn-secondary, .project-card, .nav-link::after { transition: none; } html { scroll-behavior: auto; } }
     </style>
 </head>
-<body class="h-full">
-
-    <header class="sticky top-0 z-40 bg-white/80 border-b border-slate-200 backdrop-blur-md">
-        <div class="flex items-center justify-between px-4 lg:px-8 h-16">
-            <div class="flex items-center gap-2">
-                <button id="sidebarToggle" class="lg:hidden p-1.5 rounded-md text-slate-600 hover:bg-slate-100"><i class="fas fa-bars fa-fw"></i></button>
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-building-shield text-2xl text-brand-DEFAULT"></i>
-                    <h1 class="font-bold text-lg tracking-tight text-slate-800 hidden sm:block">Institutional REPE Model</h1>
-                </div>
+<body class="antialiased">
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <!-- Header -->
+    <header class="bg-white/95 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-100">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#top" class="text-xl font-bold text-gray-900">GAUTAM KALE</a>
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#about" class="nav-link text-gray-600 hover:text-gray-900">Profile</a>
+                <a href="#transactions" class="nav-link text-gray-600 hover:text-gray-900">Transactions</a>
+                <a href="#projects" class="nav-link text-gray-600 hover:text-gray-900">Projects</a>
+                <a href="#contact" class="nav-link text-gray-600 hover:text-gray-900">Contact</a>
+            </nav>
+            <div class="hidden md:flex items-center">
+                 <a href="/assets/Gautam_Kale_Resume.pdf" download class="btn-primary text-white font-semibold py-2 px-4 rounded-md text-sm">Download CV</a>
             </div>
-            <div class="flex items-center gap-4">
-                <div class="hidden sm:flex items-center gap-2">
-                    <label for="scenarioSelect" class="text-xs font-medium text-slate-500">Scenario:</label>
-                    <select id="scenarioSelect" class="block w-full rounded-md border-slate-300 bg-white text-sm py-1.5 pl-3 pr-8 focus:border-brand-light focus:ring-brand-light"></select>
-                </div>
-                 <button id="calcBtn" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-brand-light text-white text-sm font-semibold shadow hover:bg-brand-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-light">
-                   <i class="fas fa-calculator fa-fw"></i> Calculate
-                </button>
-                <img src="https://placehold.co/40x40/1e40af/white?text=GK" alt="Gautam Kale" class="w-8 h-8 rounded-full ring-2 ring-offset-2 ring-white ring-brand-DEFAULT">
-            </div>
+            <button class="md:hidden" id="menu-button" aria-controls="mobile-menu" aria-expanded="false" aria-label="Open menu">
+                <i data-lucide="menu" class="w-5 h-5" aria-hidden="true"></i>
+            </button>
+            <nav id="mobile-menu" class="hidden md:hidden flex-col space-y-3 absolute top-full left-0 w-full bg-white p-6 shadow-md">
+                <a href="#about" class="nav-link text-gray-600 hover:text-gray-900">Profile</a>
+                <a href="#transactions" class="nav-link text-gray-600 hover:text-gray-900">Transactions</a>
+                <a href="#projects" class="nav-link text-gray-600 hover:text-gray-900">Projects</a>
+                <a href="#contact" class="nav-link text-gray-600 hover:text-gray-900">Contact</a>
+                <a href="/assets/Gautam_Kale_Resume.pdf" download class="mt-2 inline-block btn-primary text-white font-semibold py-2 px-4 rounded-md text-sm">Download CV</a>
+            </nav>
         </div>
     </header>
-
-    <div class="flex h-[calc(100%-64px)]">
-        <aside id="sidebar" class="w-64 shrink-0 border-r border-slate-200 bg-white overflow-y-auto absolute lg:relative z-30 lg:z-auto -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
-            <nav class="py-8 px-6 space-y-8 text-sm">
-                <div>
-                    <h3 class="font-semibold text-slate-400 uppercase tracking-wider mb-2 px-2">Navigation</h3>
-                    <ul class="space-y-1" id="tab-navigation">
-                        <li><a href="#tab-inputs" class="sidebar-link active flex items-center gap-3 px-2 py-2 rounded-md font-medium"><i class="fas fa-sliders-h fa-fw w-5 text-center"></i><span>Inputs</span></a></li>
-                        <li><a href="#tab-analysis" class="sidebar-link flex items-center gap-3 px-2 py-2 rounded-md font-medium text-slate-600"><i class="fas fa-chart-pie fa-fw w-5 text-center"></i><span>Analysis</span></a></li>
-                        <li><a href="#tab-sensitivity" class="sidebar-link flex items-center gap-3 px-2 py-2 rounded-md font-medium text-slate-600"><i class="fas fa-th fa-fw w-5 text-center"></i><span>Sensitivity</span></a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="font-semibold text-slate-400 uppercase tracking-wider mb-2 px-2">Utilities</h3>
-                    <ul class="space-y-1">
-                        <li><button id="exportExcelBtn" class="w-full flex items-center gap-3 px-2 py-2 rounded-md font-medium text-slate-600"><i class="fas fa-file-excel fa-fw w-5 text-center"></i><span>Export to XLSX</span></button></li>
-                        <li><button id="resetBtn" class="w-full flex items-center gap-3 px-2 py-2 rounded-md font-medium text-slate-600"><i class="fas fa-undo fa-fw w-5 text-center"></i><span>Reset Inputs</span></button></li>
-                        <li><button id="saveScenarioBtn" class="w-full flex items-center gap-3 px-2 py-2 rounded-md font-medium text-slate-600"><i class="fas fa-save fa-fw w-5 text-center"></i><span>Save Scenario</span></button></li>
-                    </ul>
-                </div>
-            </nav>
-            <div class="px-6 py-4 border-t border-slate-200 text-xs text-slate-500">
-                &copy; 2025 Gautam Kale. All Rights Reserved. <br> 
-                <a href="https://bit.ly/Gautam-Kale-Model-Guide" target="_blank" class="hover:text-brand-light underline">View Model Guide</a> • Version 3.4
+    <!-- Main Content -->
+    <main id="main-content" class="container mx-auto px-6">
+        <!-- Hero Section -->
+        <section class="py-24 flex flex-col justify-center text-center max-w-4xl mx-auto reveal">
+            <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-gray-900">
+                Institutional-Grade Underwriting & Risk Automation
+            </h1>
+            <p class="mt-4 text-lg md:text-xl max-w-3xl leading-relaxed mx-auto text-gray-600">
+                Delivering proprietary platforms for PE/IB with 20%+ modeled IRR, 60% drawdown mitigation, and 800+ hours/year saved via automation.
+            </p>
+            <div class="mt-8 flex justify-center gap-4 flex-wrap">
+                <a href="https://calendly.com/gautamkale" target="_blank" rel="noopener noreferrer" class="btn-primary text-white font-semibold py-2 px-6 rounded-md text-sm">Schedule a Strategy Call</a>
+                <a href="#projects" class="btn-secondary bg-white text-blue-900 font-semibold py-2 px-6 rounded-md border border-blue-100 text-sm">Explore Projects</a>
             </div>
-        </aside>
-
-        <main class="flex-1 overflow-y-auto lg:p-8 p-4 space-y-8">
-            <section id="kpiRibbon" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sticky top-4 z-20">
-                <div class="card p-4 rounded-xl shadow-sm"><p class="text-xs text-slate-500 mb-1">Project IRR</p><p id="kpiProjectIRR" class="text-2xl font-bold text-emerald-600">–</p></div>
-                <div class="card p-4 rounded-xl shadow-sm"><p class="text-xs text-slate-500 mb-1">Project MOIC</p><p id="kpiProjectMOIC" class="text-2xl font-bold text-emerald-600">–</p></div>
-                <div class="card p-4 rounded-xl shadow-sm"><p class="text-xs text-slate-500 mb-1">LP Returns</p><div class="flex items-baseline gap-2"><p id="kpiLpIRR" class="text-lg font-semibold text-slate-700">–</p><p id="kpiLpMOIC" class="text-sm text-slate-500">–</p></div></div>
-                <div class="card p-4 rounded-xl shadow-sm"><p class="text-xs text-slate-500 mb-1">GP Returns</p><div class="flex items-baseline gap-2"><p id="kpiGpIRR" class="text-lg font-semibold text-slate-700">–</p><p id="kpiGpMOIC" class="text-sm text-slate-500">–</p></div></div>
-            </section>
-
-            <section id="tab-inputs" class="space-y-6">
-                <div id="inputs-container">
-                    <details open class="card rounded-xl shadow-sm border-0"><summary class="flex justify-between items-center cursor-pointer select-none p-4 font-semibold text-slate-800">Acquisition & Property<i class="accordion-icon fas fa-chevron-down text-slate-500 transition-transform"></i></summary><div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-4 border-t border-slate-200 p-4"><div class="form-control"><label class="label-text">Purchase Price ($)</label><input id="purchasePrice" type="text" data-type="currency" class="input-format"/></div><div class="form-control"><label class="label-text">Closing Costs (%)</label><input id="closingCosts" type="text" data-type="percent" class="input-format"/></div><div class="form-control"><label class="label-text">Rentable SF</label><input id="squareFeet" type="text" data-type="currency" class="input-format"/></div><div class="form-control"><label class="label-text">Renovation ($/SF)</label><input id="renovationPerSF" type="text" data-type="decimal" class="input-format"/></div></div></details>
-                    <details open class="card rounded-xl shadow-sm border-0"><summary class="flex justify-between items-center cursor-pointer select-none p-4 font-semibold text-slate-800">Financing<i class="accordion-icon fas fa-chevron-down text-slate-500 transition-transform"></i></summary><div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-4 border-t border-slate-200 p-4"><div class="form-control"><label class="label-text">Loan-to-Cost (%)</label><input id="ltc" type="text" data-type="percent" class="input-format"/></div><div class="form-control"><label class="label-text">Interest Rate (%)</label><input id="interestRate" type="text" data-type="percent" class="input-format"/></div><div class="form-control"><label class="label-text">Amortization (Yrs)</label><input id="amortization" type="text" data-type="integer" class="input-format"/></div><div class="form-control"><label class="label-text">IO Period (Mos)</label><input id="ioPeriod" type="text" data-type="integer" class="input-format"/></div><div class="form-control"><label class="label-text">Financing Fees (%)</label><input id="financingFees" type="text" data-type="percent" class="input-format"/></div><div class="form-control"><label class="label-text">Debt Term (Yrs)</label><input id="debtTerm" type="text" data-type="integer" class="input-format"/></div></div></details>
-                    <details class="card rounded-xl shadow-sm border-0"><summary class="flex justify-between items-center cursor-pointer select-none p-4 font-semibold text-slate-800">Operations & Revenue<i class="accordion-icon fas fa-chevron-down text-slate-500 transition-transform"></i></summary><div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-4 border-t border-slate-200 p-4"><div class="form-control"><label class="label-text">Start Rent ($/SF/Yr)</label><input id="startRent" type="text" data-type="decimal" class="input-format"/></div><div class="form-control"><label class="label-text">Rent Growth (%/Yr)</label><input id="rentGrowth" type="text" data-type="percent" class="input-format"/></div><div class="form-control"><label class="label-text">Vacancy (%)</label><input id="vacancy" type="text" data-type="percent" class="input-format"/></div><div class="form-control"><label class="label-text">Credit Loss (%)</label><input id="creditLoss" type="text" data-type="percent" class="input-format"/></div><div class="form-control"><label class="label-text">Prop. Taxes ($/SF/Yr)</label><input id="propTaxes" type="text" data-type="decimal" class="input-format"/></div><div class="form-control"><label class="label-text">Insurance ($/SF/Yr)</label><input id="insurance" type="text" data-type="decimal" class="input-format"/></div><div class="form-control"><label class="label-text">Mgmt Fee (% EGI)</label><input id="mgmtFee" type="text" data-type="percent" class="input-format"/></div><div class="form-control"><label class="label-text">Repairs ($/SF/Yr)</label><input id="repairs" type="text" data-type="decimal" class="input-format"/></div><div class="form-control"><label class="label-text">OpEx Growth (%/Yr)</label><input id="opexGrowth" type="text" data-type="percent" class="input-format"/></div><div class="form-control"><label class="label-text">CapEx ($/SF/Yr)</label><input id="stabilizedCapex" type="text" data-type="decimal" class="input-format"/></div></div></details>
-                    <details class="card rounded-xl shadow-sm border-0"><summary class="flex justify-between items-center cursor-pointer select-none p-4 font-semibold text-slate-800">Exit & Partnership<i class="accordion-icon fas fa-chevron-down text-slate-500 transition-transform"></i></summary><div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-4 border-t border-slate-200 p-4"><div class="form-control"><label class="label-text">Hold Period (Yrs)</label><input id="holdPeriod" type="text" data-type="integer" class="input-format"/></div><div class="form-control"><label class="label-text">Exit Cap Rate (%)</label><input id="exitCap" type="text" data-type="percent" class="input-format"/></div><div class="form-control"><label class="label-text">Cost of Sale (%)</label><input id="costOfSale" type="text" data-type="percent" class="input-format"/></div><div class="form-control"><label class="label-text">LP Equity Share (%)</label><input id="lpShare" type="text" data-type="percent" class="input-format"/></div><div class="form-control"><label class="label-text">Pref. Return (%)</label><input id="prefReturn" type="text" data-type="percent" class="input-format"/></div><div class="form-control"><label class="label-text">Promote (GP %)</label><input id="promoteGP" type="text" data-type="percent" class="input-format"/></div><div class="form-control"><label class="label-text">Tax Shield</label><input type="checkbox" id="taxAdjust" class="input-format"></div></div></details>
+        </section>
+        <!-- About Section -->
+        <section id="about" class="py-24 border-t border-gray-100 reveal">
+            <div class="max-w-4xl mx-auto grid md:grid-cols-3 gap-8 items-start">
+                <div class="md:col-span-1">
+                    <h2 class="text-3xl font-bold text-gray-900 tracking-tight">Profile</h2>
+                    <img src="https://placehold.co/400x500/e2e8f0/334155?text=Gautam+Kale" alt="Professional headshot of Gautam Kale" class="mt-4 rounded-md shadow-sm w-full" loading="lazy" width="400" height="500">
                 </div>
-            </section>
+                <div class="md:col-span-2 space-y-4 text-gray-700 text-base leading-relaxed">
+                    <p>
+                        A finance professional forged in Investment Banking Operations at JPMorgan Chase & Co. and the founder of NextHedge, my passion lies at the intersection of finance and technology. I specialize in architecting institutional-grade investment models and automated systems. My expertise is further advancing through an Advanced Certification in Generative AI & Machine Learning from IIT Madras.
+                    </p>
+                    <h3 class="text-xl font-semibold text-gray-800">Platform Innovation</h3>
+                    <p class="text-sm text-gray-500">May 2024 – Present</p>
+                    <p>
+                        Built advanced financial platforms, including a $34M prototype transaction yielding 20.9% IRR and a blockchain CDS platform mitigating 60% of portfolio drawdown.
+                    </p>
+                    <h3 class="text-xl font-semibold text-gray-800 mt-6">JPMorgan Chase & Co. | Analyst, Investment Banking Operations</h3>
+                    <p class="text-sm text-gray-500">Sep 2021 – Apr 2024 (2 years, 8 months)</p>
+                    <p>
+                        Managed trade lifecycle for 2,000+ trades/month with meticulous accuracy. Built Python/VBA automations saving over 800 FTE hours annually by reducing manual effort by 40%.
+                    </p>
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <h4 class="font-semibold text-gray-800">Credentials & File Integrity</h4>
+                        <p class="text-gray-600 text-sm">
+                            BBA, Finance & Investment | Investment Banking Certification | Adv. AI/ML Cert. (In Progress)
+                        </p>
+                        <p class="text-xs text-gray-500 font-mono mt-2">CV SHA-256: [YOUR_CV_SHA256_HASH_HERE]</p>
+                        <a href="/pgp.txt" target="_blank" rel="noopener noreferrer" class="text-xs text-blue-800 hover:underline">PGP Key for Secure Exchange</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Transactions Section -->
+        <section id="transactions" class="py-24 border-t border-gray-100 reveal">
+             <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-gray-900 tracking-tight">Transactions</h2>
+                 <p class="mt-3 text-base text-gray-600">Select transaction and modeling experience. Full deal sheet available upon request.</p>
+                <ul class="mt-6 space-y-4">
+                    <li class="text-sm text-gray-700 border-b border-gray-100 pb-2">
+                      <strong>$34M LBO</strong> – Modeled 20.9% IRR, 2.44x MOIC (Prototype Transaction)
+                    </li>
+                    <li class="text-sm text-gray-700 border-b border-gray-100 pb-2">
+                      <strong>$1.1B REPE</strong> – Debt optimization modeling for a 5-city logistics portfolio (Anonymized)
+                    </li>
+                    <li class="text-sm text-gray-700">
+                      <strong>Derivatives Trade Portfolio ($5B+ Monthly Notional)</strong> – Managed settlement and reconciliation for 24,000+ annual trades at J.P. Morgan, reducing trade breaks by 25% through root-cause analysis.
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-24 border-t border-gray-100 reveal">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-gray-900 tracking-tight">Projects</h2>
+                <p class="mt-3 text-base text-gray-600">Proprietary platforms for quantitative finance and risk management. Secure demos available on request.</p>
+            </div>
+            <div class="mt-12 grid gap-8">
+                <!-- KaleTech -->
+                <div class="project-card rounded-md overflow-hidden">
+                    <div class="grid md:grid-cols-2 items-center">
+                        <div class="p-6">
+                            <span class="text-blue-600 font-semibold text-xs">REPE PLATFORM</span>
+                            <h3 class="text-xl font-bold text-gray-900 mt-1">KaleTech Underwriting Suite</h3>
+                            <p class="mt-2 text-gray-600 text-sm">
+                                <strong>Challenge:</strong> Legacy REPE underwriting lacked flexibility for $100M+ deals.<br>
+                                <strong>Solution:</strong> Built a modular platform for cash flow and waterfall modeling.<br>
+                                <strong>Impact:</strong> Modeled 20.9% IRR and 2.44x MOIC in a $34M prototype deal.
+                            </p>
+                            <a href="https://kaletech999.github.io/GK_REPE/" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 text-blue-800 font-semibold text-sm hover:underline">Request Secure Demo →</a>
+                        </div>
+                        <div class="bg-gray-50 h-full flex items-center justify-center p-6">
+                            <img src="https://images.unsplash.com/photo-1641154749597-81a199139ae9?q=80&w=1332&auto=format&fit=crop" alt="Dashboard view of the KaleTech Underwriting Suite" class="rounded-md shadow-sm" loading="lazy" width="1332" height="888">
+                        </div>
+                    </div>
+                </div>
+                <!-- NextHedge -->
+                <div class="project-card rounded-md overflow-hidden">
+                    <div class="grid md:grid-cols-2 items-center">
+                        <div class="p-6 md:order-2">
+                            <span class="text-blue-600 font-semibold text-xs">RISK MANAGEMENT</span>
+                            <h3 class="text-xl font-bold text-gray-900 mt-1">NextHedge: Programmable Risk Platform</h3>
+                            <p class="mt-2 text-gray-600 text-sm">
+                                <strong>Challenge:</strong> Traditional hedging lacks coverage for non-linear, event-driven risks.<br>
+                                <strong>Solution:</strong> Developed a CDS-inspired framework with smart contract–based clearing and oracle-verified settlements.<br>
+                                <strong>Impact:</strong> Mitigated 60% of portfolio drawdown in stress tests, enabling bespoke risk transfer.
+                            </p>
+                            <a href="#" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 text-blue-800 font-semibold text-sm hover:underline">View White Paper →</a>
+                        </div>
+                        <div class="bg-gray-50 h-full flex items-center justify-center p-6 md:order-1">
+                            <img src="https://placehold.co/600x400/f3f4f6/1E3A8A?text=NextHedge+Analytics" alt="NextHedge Platform Mockup" class="rounded-md shadow-sm" loading="lazy" width="600" height="400">
+                        </div>
+                    </div>
+                </div>
+                <!-- AI-Driven FinOps Agents -->
+                <div class="project-card rounded-md overflow-hidden">
+                    <div class="grid md:grid-cols-2 items-center">
+                        <div class="p-6">
+                            <span class="text-blue-600 font-semibold text-xs">AI & AUTOMATION</span>
+                            <h3 class="text-xl font-bold text-gray-900 mt-1">AI-Driven FinOps Agents</h3>
+                            <p class="mt-2 text-gray-600 text-sm">
+                                <strong>Challenge:</strong> Manual deal sourcing and diligence are inefficient and prone to error.<br>
+                                <strong>Solution:</strong> Built proprietary engine scraping alternative data (hiring, permits) to identify off-market targets.<br>
+                                <strong>Impact:</strong> Reduced sourcing time by 60% and identified 3x more viable targets in simulations.
+                            </p>
+                             <a href="#" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 text-blue-800 font-semibold text-sm hover:underline">View Case Study →</a>
+                        </div>
+                        <div class="bg-gray-50 h-full flex items-center justify-center p-6">
+                            <img src="https://placehold.co/600x400/f3f4f6/1E3A8A?text=AI+Automation" alt="AI FinOps Agents Mockup" class="rounded-md shadow-sm" loading="lazy" width="600" height="400">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Contact Section -->
+        <section id="contact" class="py-24 text-center bg-gray-50 -mx-6 px-6 reveal">
+            <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+                <div class="text-left">
+                    <h2 class="text-3xl font-bold text-gray-900 tracking-tight">Connect</h2>
+                    <p class="mt-3 text-base text-gray-600">
+                        Open to opportunities in quantitative finance and technology. Let's discuss how I can drive value for your firm.
+                    </p>
+                    <div class="mt-6 space-y-3 text-sm">
+                        <p class="text-gray-600"><strong>Email:</strong> <a href="mailto:gautam.kale1999@gmail.com" class="hover:underline">gautam.kale1999@gmail.com</a></p>
+                        <p class="text-gray-600"><strong>Phone:</strong> <a href="tel:+919407177885" class="hover:underline">+91-9407177885</a></p>
+                        <a href="https://calendly.com/gautamkale" target="_blank" rel="noopener noreferrer" class="mt-3 inline-block btn-primary text-white font-semibold py-2 px-6 rounded-md text-sm">Schedule a Strategy Call</a>
+                    </div>
+                </div>
+                <div>
+                    <form id="contact-form" class="space-y-4 text-left">
+                        <input type="text" name="_honey" style="display:none;" aria-hidden="true"> <!-- Honeypot for spam -->
+                        <div>
+                            <label for="name" class="block text-xs font-semibold text-gray-700">Name</label>
+                            <input type="text" id="name" name="name" class="mt-1 w-full p-2 rounded-md border border-gray-300 text-sm" required>
+                        </div>
+                        <div>
+                            <label for="company" class="block text-xs font-semibold text-gray-700">Company</label>
+                            <input type="text" id="company" name="company" class="mt-1 w-full p-2 rounded-md border border-gray-300 text-sm">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-xs font-semibold text-gray-700">Email</label>
+                            <input type="email" id="email" name="email" class="mt-1 w-full p-2 rounded-md border border-gray-300 text-sm" required>
+                        </div>
+                        <div>
+                            <label for="message" class="block text-xs font-semibold text-gray-700">Message</label>
+                            <textarea id="message" name="message" rows="3" class="mt-1 w-full p-2 rounded-md border border-gray-300 text-sm" required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary text-white font-semibold py-2 px-6 rounded-md text-sm">Send Message</button>
+                    </form>
+                    <div id="form-status" class="mt-4 text-sm text-left"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Footer -->
+    <footer class="py-12 bg-gray-50">
+        <div class="container mx-auto px-6 text-center text-gray-500">
+            <p class="text-base font-semibold mb-3">Quantitative Strategy & Financial Engineering</p>
+            <div class="flex justify-center items-center space-x-4 mb-3">
+                <a href="https://github.com/KALETECH999" target="_blank" rel="noopener noreferrer" class="hover:text-blue-600" aria-label="GitHub Profile"><i data-lucide="github" class="w-5 h-5" aria-hidden="true"></i></a>
+                <a href="https://linkedin.com/in/gautam-kale-206a81171" target="_blank" rel="noopener noreferrer" class="hover:text-blue-600" aria-label="LinkedIn Profile"><i data-lucide="linkedin" class="w-5 h-5" aria-hidden="true"></i></a>
+            </div>
+            <p class="text-xs">&copy; <span id="currentYear"></span> Gautam Kale. This site uses no tracking. <a href="/privacy.html" class="underline">Privacy Policy</a>.</p>
+            <p class="text-xs mt-2">Disclaimer: Project results are based on simulated models and are not indicative of future performance.</p>
+        </div>
+    </footer>
+    
+    <!-- Scripts -->
+    <!-- NOTE: Pinning to a specific version and using SRI is a critical security practice. -->
+    <script src="https://unpkg.com/lucide@0.399.0/dist/umd/lucide.js" xintegrity="sha384-82g6QPloL3Yk7Lcvs0LdPBJv1E6BaI19SgRPH0gWNZt+Hw5JmGKLN5wsmh9CZsX+" crossorigin="anonymous" defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // This ensures lucide is loaded before we try to use it.
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
             
-            <section id="tab-analysis" class="space-y-8 hidden">
-                <div class="grid lg:grid-cols-5 gap-8"><div class="lg:col-span-3 card p-6 rounded-xl shadow-sm"><h2 class="text-lg font-semibold mb-4 text-slate-800">NOI vs. Levered Cash Flow</h2><div class="h-80"><canvas id="areaChart"></canvas></div></div><div class="lg:col-span-2 card p-6 rounded-xl shadow-sm"><h2 class="text-lg font-semibold mb-4 text-slate-800">Profit Waterfall</h2><div class="h-80"><canvas id="waterfallChart"></canvas></div></div></div>
-                <div class="card p-6 rounded-xl shadow-sm"><h2 class="text-lg font-semibold mb-4 text-slate-800">Annual Pro Forma</h2><div class="overflow-x-auto"><table class="min-w-full text-sm"><thead id="proFormaHeader"></thead><tbody id="proFormaTable"></tbody></table></div></div>
-                <div class="card p-6 rounded-xl shadow-sm"><h2 class="text-lg font-semibold mb-4 text-slate-800">Capital Stack</h2><div class="grid md:grid-cols-2 gap-8"><div><h3 class="font-medium text-slate-600">Sources</h3><div id="sources-container" class="mt-4 space-y-2"></div></div><div><h3 class="font-medium text-slate-600">Uses</h3><div id="uses-container" class="mt-4 space-y-2"></div></div></div></div>
-            </section>
-
-            <section id="tab-sensitivity" class="hidden">
-                <div class="card p-6 rounded-xl shadow-sm"><h2 class="text-lg font-semibold mb-4 text-slate-800">Project IRR Sensitivity: Exit Cap Rate vs. Rent Growth</h2><p class="text-sm text-slate-500 mb-4">Analyzes how the Project IRR changes based on shifts in key exit and operational assumptions.</p><div id="sensitivity-table-container" class="overflow-x-auto"></div></div>
-            </section>
-        </main>
-    </div>
-
-<script>
-// --- GLOBAL STATE & HELPERS ---
-const $ = (id) => document.getElementById(id);
-const formatCurrency = (val, compact = false) => {
-    if (isNaN(val)) return '-';
-    if (compact) {
-        if (Math.abs(val) >= 1e6) return `$${(val / 1e6).toFixed(1)}M`;
-        if (Math.abs(val) >= 1e3) return `$${(val / 1e3).toFixed(0)}K`;
-    }
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(val);
-};
-const formatPercent = (val) => isNaN(val) ? '-' : `${(val * 100).toFixed(1)}%`;
-const formatMulti = (val) => isNaN(val) ? '-' : `${val.toFixed(2)}x`;
-const parseFormatted = (str) => {
-    if (typeof str !== 'string' && typeof str !== 'number') return 0;
-    return parseFloat(String(str).replace(/[$,%]/g, '')) || 0;
-};
-let areaChart, waterfallChart;
-let lastCalculatedInputs = {};
-let currentResults = {};
-const defaultInputs = {
-    purchasePrice: "33,500,000", closingCosts: "2.0%", squareFeet: "450,000", renovationPerSF: "10.00",
-    ltc: "65.0%", interestRate: "6.25%", amortization: "30", ioPeriod: "24", financingFees: "1.0%", debtTerm: "10",
-    startRent: "6.50", rentGrowth: "3.5%", vacancy: "7.0%", creditLoss: "1.0%",
-    propTaxes: "1.25", insurance: "0.40", mgmtFee: "3.0%", repairs: "0.50", opexGrowth: "2.5%", stabilizedCapex: "0.25",
-    holdPeriod: "5", exitCap: "5.50%", costOfSale: "1.5%",
-    lpShare: "90%", prefReturn: "8.0%", promoteGP: "20%",
-    taxAdjust: true
-};
-
-// --- ROBUST IRR (NEWTON + BISECTION FALLBACK) ---
-function calculateIRR(cashFlows, guess = 0.1) {
-  const npv = r => cashFlows.reduce((acc, cf, i) => acc + cf / Math.pow(1 + r, i), 0);
-  let r = guess;
-  for (let i = 0; i < 25; i++) {
-    let f = 0, fp = 0;
-    cashFlows.forEach((cf, t) => {
-      const d = Math.pow(1 + r, t);
-      f += cf / d;
-      fp -= (t * cf) / (d * (1 + r));
-    });
-    if (Math.abs(fp) < 1e-9) break;
-    const rNext = r - f / fp;
-    if (Math.abs(rNext - r) < 1e-7) return rNext;
-    r = rNext;
-  }
-  let lo = -0.99, hi = 10.0;
-  if (npv(lo) * npv(hi) > 0) return NaN;
-  for (let i = 0; i < 100; i++) {
-    const mid = (lo + hi) / 2;
-    const v = npv(mid);
-    if (Math.abs(v) < 1e-7) return mid;
-    (npv(lo) * v < 0 ? hi : lo) = mid;
-  }
-  return NaN;
-}
-
-// --- CORE CALCULATION ENGINE ---
-function runModel(inputOverrides = {}) {
-    const tempInputs = { ...lastCalculatedInputs, ...inputOverrides };
-    const { purchasePrice, closingCosts, squareFeet, renovationPerSF, ltc, interestRate, amortization, ioPeriod, financingFees, debtTerm, startRent, rentGrowth, vacancy, creditLoss, propTaxes, insurance, mgmtFee, repairs, opexGrowth, stabilizedCapex, holdPeriod, exitCap, costOfSale, lpShare, prefReturn, promoteGP, taxAdjust } = tempInputs;
-    
-    if (holdPeriod <= 0) return {};
-
-    const gpShare = 1 - lpShare;
-    const gpPromote = promoteGP; 
-    const lpPromote = 1 - gpPromote;
-    
-    const closingCostsVal = purchasePrice * closingCosts;
-    const renovationBudget = squareFeet * renovationPerSF;
-    const totalUses = purchasePrice + renovationBudget + closingCostsVal;
-    const loanAmount = totalUses * ltc;
-    const financingFeesVal = loanAmount * financingFees;
-    const totalProjectCost = totalUses + financingFeesVal;
-    const totalEquity = totalProjectCost - loanAmount;
-    const lpEquity = totalEquity * lpShare;
-    const gpEquity = totalEquity * gpShare;
-    
-    let monthlyData = [];
-    let currentLoanBalance = loanAmount;
-    const monthlyInterestRate = interestRate / 12;
-    let pmt = 0;
-    if (loanAmount > 0) {
-        const initialAmortMonths = amortization * 12;
-        pmt = (loanAmount * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -initialAmortMonths));
-    }
-    
-    for (let m = 1; m <= holdPeriod * 12; m++) {
-        const y = Math.ceil(m / 12);
-        const currentAnnualRent = startRent * Math.pow(1 + rentGrowth, y - 1);
-        const pgi = (squareFeet * currentAnnualRent) / 12, vacLoss = pgi * vacancy, egi = pgi - vacLoss, creditLossAmt = egi * creditLoss, collectedRevenue = egi - creditLossAmt;
-        const taxes = (propTaxes * squareFeet / 12) * Math.pow(1 + opexGrowth, y - 1), ins = (insurance * squareFeet / 12) * Math.pow(1 + opexGrowth, y - 1), mgmt = collectedRevenue * mgmtFee, repairMaint = (repairs * squareFeet / 12) * Math.pow(1 + opexGrowth, y - 1);
-        const totalOpex = taxes + ins + mgmt + repairMaint;
-        const noi = collectedRevenue - totalOpex, capex = (stabilizedCapex * squareFeet / 12), unleveredCF = noi - capex;
-        const interestPayment = currentLoanBalance * monthlyInterestRate;
-        let principalPayment = 0;
-        if (m === ioPeriod + 1 && loanAmount > 0) {
-            const remainingTermMonths = (debtTerm * 12) - ioPeriod;
-            if (remainingTermMonths > 0) {
-                 pmt = (currentLoanBalance * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -remainingTermMonths));
-            } else { pmt = currentLoanBalance + interestPayment; }
-        }
-        if (m > ioPeriod) {
-            principalPayment = pmt - interestPayment;
-            if (principalPayment < 0 || currentLoanBalance < principalPayment) principalPayment = currentLoanBalance;
-        }
-        currentLoanBalance -= principalPayment;
-        monthlyData.push({ year: y, noi, leveredCF: unleveredCF - (interestPayment + principalPayment), interestPayment });
-    }
-
-    let annualData = [];
-    for (let y = 1; y <= holdPeriod; y++) {
-        const yearData = monthlyData.filter(d => d.year === y);
-        annualData.push({
-            year: y,
-            noi: yearData.reduce((s, d) => s + d.noi, 0),
-            leveredCF: yearData.reduce((s, d) => s + d.leveredCF, 0),
-            interest: yearData.reduce((s,d) => s + d.interestPayment, 0)
-        });
-    }
-
-    const forwardNOI = annualData[holdPeriod - 1].noi * (1 + rentGrowth);
-    const grossExitValue = exitCap > 0 ? forwardNOI / exitCap : 0;
-    const costOfSaleVal = grossExitValue * costOfSale;
-    const netSaleProceeds = grossExitValue - costOfSaleVal - currentLoanBalance;
-
-    const propertyCashFlows = [-totalEquity, ...annualData.map(d => d.leveredCF)];
-    propertyCashFlows[holdPeriod] += netSaleProceeds;
-    
-    if (taxAdjust) {
-        const depreciableBasis = (purchasePrice * 0.8) + renovationBudget;
-        const annualDepreciation = depreciableBasis / 39;
-        for (let y=0; y<holdPeriod; y++) {
-            const taxableIncome = annualData[y].noi - annualData[y].interest - annualDepreciation;
-            const tax = taxableIncome * 0.25;
-            propertyCashFlows[y+1] -= tax;
-        }
-    }
-    
-    const projectIRR = calculateIRR(propertyCashFlows);
-    const projectMOIC = totalEquity > 0 ? propertyCashFlows.slice(1).reduce((a, b) => a + b, 0) / totalEquity : 0;
-    
-    let lpCapitalRemaining = lpEquity, gpCapitalRemaining = gpEquity, lpPrefAccrued = 0;
-    let lpAnnualCF = Array(holdPeriod).fill(0), gpAnnualCF = Array(holdPeriod).fill(0);
-    for (let y=0; y<holdPeriod; y++){
-      let distCash = propertyCashFlows[y+1];
-      if (distCash < 0) distCash = 0; // Negative CF handler
-      lpPrefAccrued += lpCapitalRemaining * prefReturn;
-      let lpRocDist = Math.min(distCash, lpCapitalRemaining); lpAnnualCF[y]+=lpRocDist; lpCapitalRemaining-=lpRocDist; distCash-=lpRocDist;
-      let gpRocDist = Math.min(distCash, gpCapitalRemaining); gpAnnualCF[y]+=gpRocDist; gpCapitalRemaining-=gpRocDist; distCash-=gpRocDist;
-      let prefPayment = Math.min(distCash, lpPrefAccrued); lpAnnualCF[y]+=prefPayment; lpPrefAccrued-=prefPayment; distCash-=prefPayment;
-      if (distCash > 0) {
-        const totalProfitBeforePromote = (lpAnnualCF.slice(0, y+1).reduce((a,b)=>a+b,0) - lpEquity) + (gpAnnualCF.slice(0, y+1).reduce((a,b)=>a+b,0) - gpEquity);
-        const gpPromoteEarned = (gpAnnualCF.slice(0, y+1).reduce((a,b)=>a+b,0) - gpEquity);
-        const catchUpNeeded = Math.max(0, (totalProfitBeforePromote * gpPromote) - gpPromoteEarned);
-        const gpCatchUp = Math.min(distCash, catchUpNeeded);
-        gpAnnualCF[y] += gpCatchUp; distCash -= gpCatchUp;
-      }
-      lpAnnualCF[y]+=distCash*lpPromote; gpAnnualCF[y]+=distCash*gpPromote;
-    }
-    const lpIRR = calculateIRR([-lpEquity, ...lpAnnualCF]);
-    const lpMOIC = lpEquity > 0 ? lpAnnualCF.reduce((a, b) => a + b, 0) / lpEquity : 0;
-    const gpIRR = calculateIRR([-gpEquity, ...gpAnnualCF]);
-    const gpMOIC = gpEquity > 0 ? gpAnnualCF.reduce((a, b) => a + b, 0) / gpEquity : 0;
-
-    return { projectIRR, projectMOIC, lpIRR, gpIRR, lpMOIC, gpMOIC, annualData, totalProfitToLP: lpMOIC * lpEquity - lpEquity, totalProfitToGP: gpMOIC * gpEquity - gpEquity, sources: { loanAmount, lpEquity, gpEquity, totalProjectCost }, uses: { purchasePrice, renovationBudget, closingCosts: closingCostsVal, financingFees: financingFeesVal, totalProjectCost }, holdPeriod };
-}
-
-// --- MAIN CONTROLLER & UI BINDING ---
-function calculateModelWrapper() {
-    lastCalculatedInputs = {};
-    document.querySelectorAll('#inputs-container input').forEach(i => {
-        if (i.type === 'checkbox') {
-            lastCalculatedInputs[i.id] = i.checked;
-        } else {
-             lastCalculatedInputs[i.id] = parseFormatted(i.value) / (i.dataset.type === 'percent' ? 100 : 1);
-        }
-    });
-    currentResults = runModel();
-    updateUI(currentResults);
-    buildSensitivityTable();
-}
-
-function updateUI(results) {
-    if (Object.keys(results).length === 0) return;
-    const { projectIRR, projectMOIC, lpIRR, gpIRR, lpMOIC, gpMOIC, annualData, totalProfitToLP, totalProfitToGP, sources, uses, holdPeriod } = results;
-    
-    const kpiMap = { kpiProjectIRR: 'projectIRR', kpiLpIRR: 'lpIRR', kpiGpIRR: 'gpIRR' };
-    Object.entries(kpiMap).forEach(([id, key]) => $(id).textContent = formatPercent(results[key]));
-    $('kpiProjectMOIC').textContent = formatMulti(projectMOIC);
-    $('kpiLpMOIC').textContent = formatMulti(lpMOIC);
-    $('kpiGpMOIC').textContent = formatMulti(gpMOIC);
-
-    let proFormaHeaderHTML = `<tr><th class="py-2 px-2 text-left font-semibold">Metric</th>`;
-    for (let y = 1; y <= holdPeriod; y++) proFormaHeaderHTML += `<th class="py-2 px-2 text-right font-semibold">Yr ${y}</th>`;
-    $('proFormaHeader').innerHTML = proFormaHeaderHTML + `</tr>`;
-    $('proFormaTable').innerHTML = [{ label: 'NOI', data: annualData.map(d => formatCurrency(d.noi, true)) }, { label: 'Levered CF (After Tax)', data: annualData.map(d => formatCurrency(d.leveredCF, true)) }].map(r => `<tr class="border-b border-slate-200"><td class="py-2 px-2 font-medium text-slate-600">${r.label}</td>${r.data.map(d => `<td class="py-2 px-2 text-right font-mono">${d}</td>`).join('')}</tr>`).join('');
-    $('sources-container').innerHTML = `<div class="flex justify-between text-sm py-1"><span class="text-slate-600">Senior Debt</span><span class="font-mono">${formatCurrency(sources.loanAmount, true)}</span></div><div class="flex justify-between text-sm py-1"><span class="text-slate-600">Investor Equity (LP)</span><span class="font-mono">${formatCurrency(sources.lpEquity, true)}</span></div><div class="flex justify-between text-sm py-1"><span class="text-slate-600">Sponsor Equity (GP)</span><span class="font-mono">${formatCurrency(sources.gpEquity, true)}</span></div><div class="flex justify-between text-sm py-1 font-bold border-t border-slate-200 pt-2"><span class="text-slate-800">Total Sources</span><span class="font-mono">${formatCurrency(sources.totalProjectCost, true)}</span></div>`;
-    $('uses-container').innerHTML = `<div class="flex justify-between text-sm py-1"><span class="text-slate-600">Purchase Price</span><span class="font-mono">${formatCurrency(uses.purchasePrice, true)}</span></div><div class="flex justify-between text-sm py-1"><span class="text-slate-600">Renovation Budget</span><span class="font-mono">${formatCurrency(uses.renovationBudget, true)}</span></div><div class="flex justify-between text-sm py-1"><span class="text-slate-600">Closing Costs</span><span class="font-mono">${formatCurrency(uses.closingCosts, true)}</span></div><div class="flex justify-between text-sm py-1"><span class="text-slate-600">Financing Fees</span><span class="font-mono">${formatCurrency(uses.financingFees, true)}</span></div><div class="flex justify-between text-sm py-1 font-bold border-t border-slate-200 pt-2"><span class="text-slate-800">Total Uses</span><span class="font-mono">${formatCurrency(uses.totalProjectCost, true)}</span></div>`;
-    updateCharts(annualData, totalProfitToLP, totalProfitToGP, holdPeriod);
-}
-
-function updateCharts(annualData, totalProfitToLP, totalProfitToGP, holdPeriod) {
-    const isDark = document.documentElement.dataset.theme === 'dark';
-    const gridColor = isDark ? '#334155' : '#e2e8f0';
-    const textColor = isDark ? '#94a3b8' : '#64748b';
-    const labels = Array.from({ length: holdPeriod }, (_, i) => `Year ${i + 1}`);
-    if (areaChart) areaChart.destroy();
-    areaChart = new Chart($('areaChart').getContext('2d'), { 
-        type: 'line', 
-        options:{ responsive:true, maintainAspectRatio:false, layout:{padding:{top:20}}, interaction:{mode:'index',intersect:false}, scales:{ x:{grid:{display:false},ticks:{color:textColor}}, y:{grid:{color:gridColor,drawBorder:false}, ticks:{callback:v=>formatCurrency(Number(v),true),color:textColor}}}, plugins:{ legend:{position:'bottom',labels:{color:textColor,boxWidth:12}}, datalabels:{display:false}, tooltip:{callbacks:{label:ctx=>` ${ctx.dataset.label}: ${formatCurrency(ctx.parsed.y)}`}}}}, 
-        data: { labels, datasets: [ { label: 'NOI', data: annualData.map(d => d.noi), fill: true, backgroundColor: 'rgba(30, 64, 175, 0.1)', borderColor: '#1e40af', tension: 0.3 }, { label: 'Levered CF', data: annualData.map(d => d.leveredCF), fill: true, backgroundColor: 'rgba(34, 197, 94, 0.1)', borderColor: '#22c55e', tension: 0.3 } ] } 
-    });
-
-    if (waterfallChart) waterfallChart.destroy();
-    waterfallChart = new Chart($('waterfallChart').getContext('2d'), { 
-        type:'bar', 
-        options:{ 
-            indexAxis:'y', responsive:true, maintainAspectRatio:false, 
-            scales:{ x:{grid:{color:gridColor,drawBorder:false}, ticks:{callback:v=>formatCurrency(Number(v),true),color:textColor}}, y:{grid:{display:false}}}, 
-            plugins:{ 
-                tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${formatCurrency(ctx.raw)}`}}, 
-                legend:{display:false}, 
-                datalabels:{ 
-                    color:(ctx)=>{ const bg = ctx.dataset.backgroundColor[ctx.dataIndex]; return (bg.includes('8b5cf6') ? '#ffffff' : '#0f172a'); }, 
-                    anchor:'center', align:'center', font:{weight:'bold'}, formatter:v=>formatCurrency(v, true) 
-                }
-            }
-        }, 
-        data: { 
-            labels: ['LP Profit', 'GP Profit'], 
-            datasets: [{ 
-                label: 'Profit', 
-                data: [totalProfitToLP, totalProfitToGP], 
-                backgroundColor: ['#3b82f6', '#8b5cf6'], 
-                borderRadius: 6 
-            }] 
-        } 
-    });
-}
-
-function buildSensitivityTable() {
-    const exitCaps = [-0.5, -0.25, 0, 0.25, 0.5].map(d => lastCalculatedInputs.exitCap * 100 + d);
-    const rentGrowths = [-1, -0.5, 0, 0.5, 1].map(d => lastCalculatedInputs.rentGrowth * 100 + d);
-    let tbl = `<table class="border-collapse w-full text-xs">`;
-    tbl += `<thead><tr><th class="p-2 text-left text-xs font-semibold" rowspan="2">Rent Growth</th><th class="p-2 text-xs font-semibold text-center" colspan="${exitCaps.length}">Exit Cap Rate</th></tr><tr>${exitCaps.map(c => `<th class="p-2 text-xs font-semibold">${c.toFixed(2)}%</th>`).join('')}</tr></thead><tbody>`;
-    rentGrowths.forEach(rg => {
-        tbl += `<tr><th class="p-2 pr-4 text-xs font-semibold">${rg.toFixed(1)}%</th>`;
-        exitCaps.forEach(ec => {
-            const irr = runModel({ rentGrowth: rg / 100, exitCap: ec / 100 }).projectIRR;
-            let bgColor = '';
-            if (irr < 0.14) bgColor = 'bg-rose-100 text-rose-700';
-            else if (irr > 0.18) bgColor = 'bg-emerald-100 text-emerald-700';
-            if (Math.abs(rg - lastCalculatedInputs.rentGrowth*100) < 0.1 && Math.abs(ec - lastCalculatedInputs.exitCap*100) < 0.01) bgColor += ' sensitivity-heatmap';
-            tbl += `<td class="p-1 font-mono text-[11px] text-center ${bgColor}">${formatPercent(irr)}</td>`;
-        });
-        tbl += '</tr>';
-    });
-    $('sensitivity-table-container').innerHTML = tbl + `</tbody></table>`;
-}
-
-function exportToExcel() {
-    const { annualData, sources, uses, projectIRR, projectMOIC, lpIRR, lpMOIC, gpIRR, gpMOIC, holdPeriod } = currentResults;
-    const wb = XLSX.utils.book_new();
-    
-    // Pro Forma Sheet
-    const wsData = [
-        ['Metric', ...Array.from({length: holdPeriod}, (_, i) => `Yr ${i+1}`)],
-        ['NOI', ...annualData.map(d => d.noi)],
-        ['Levered CF (After Tax)', ...annualData.map(d => d.leveredCF)],
-    ];
-    const ws = XLSX.utils.aoa_to_sheet(wsData);
-    XLSX.utils.book_append_sheet(wb, ws, "Pro Forma");
-
-    // Capital Stack Sheet
-    const stackData = [
-        ['Sources', 'Amount'], ['Senior Debt', sources.loanAmount], ['LP Equity', sources.lpEquity], ['GP Equity', sources.gpEquity], ['Total Sources', sources.totalProjectCost],
-        [''],
-        ['Uses', 'Amount'], ['Purchase Price', uses.purchasePrice], ['Renovation Budget', uses.renovationBudget], ['Closing Costs', uses.closingCosts], ['Financing Fees', uses.financingFees], ['Total Uses', uses.totalProjectCost]
-    ];
-    const wsStack = XLSX.utils.aoa_to_sheet(stackData);
-    XLSX.utils.book_append_sheet(wb, wsStack, "Capital Stack");
-
-    // Returns Summary
-    const summaryData = [
-        ['Metric', 'Value'],
-        ['Project IRR', projectIRR], ['Project MOIC', projectMOIC],
-        ['LP IRR', lpIRR], ['LP MOIC', lpMOIC],
-        ['GP IRR', gpIRR], ['GP MOIC', gpMOIC]
-    ];
-    const wsSummary = XLSX.utils.aoa_to_sheet(summaryData);
-    XLSX.utils.book_append_sheet(wb, wsSummary, "Returns Summary");
-
-    // Export
-    XLSX.writeFile(wb, `Industrial_LBO_Model_${new Date().toISOString().slice(0,10)}.xlsx`);
-}
-
-// --- INITIALIZATION & EVENT LISTENERS ---
-function initializeApp() {
-    // Populate inputs with defaults from the start
-    Object.keys(defaultInputs).forEach(key => {
-        const el = $(key);
-        if (el) {
-            if (el.type === 'checkbox') {
-                el.checked = defaultInputs[key];
-            } else {
-                el.value = defaultInputs[key];
-            }
-        }
-    });
-
-    // Setup input formatting and live calculation
-    document.querySelectorAll('.input-format').forEach(inp => {
-        inp.addEventListener('blur', e => {
-            const val = parseFormatted(e.target.value);
-            if (isNaN(val)) { e.target.value = ''; return; }
-            const type = e.target.dataset.type;
-            if (type === 'percent') {
-                const dec = (e.target.value.trim().match(/\.(\d+)/)?.[1]?.length) || 1;
-                e.target.value = `${val.toFixed(Math.min(dec,2))}%`;
-            }
-            else if (type === 'decimal') e.target.value = val.toFixed(2);
-            else if (type === 'integer') e.target.value = val.toFixed(0);
-            else e.target.value = val.toLocaleString('en-US', {maximumFractionDigits: 0});
-        });
-        inp.dispatchEvent(new Event('blur')); // Format initial values
-    });
-
-    // Setup button listeners
-    $('resetBtn').addEventListener('click', () => {
-        Object.keys(defaultInputs).forEach(key => {
-            const el = $(key);
-            if(el) {
-                if(el.type === 'checkbox') el.checked = defaultInputs[key];
-                else el.value = defaultInputs[key];
-                el.dispatchEvent(new Event('blur'));
-            }
-        });
-        calculateModelWrapper();
-    });
-
-    $('exportExcelBtn').addEventListener('click', exportToExcel);
-    $('saveScenarioBtn').addEventListener('click', () => {
-        const scenarioName = prompt("Enter a name for this scenario:", "My Custom Case");
-        if (scenarioName) {
-            const scenarios = JSON.parse(localStorage.getItem('repe_scenarios') || '{}');
-            scenarios[scenarioName] = lastCalculatedInputs;
-            localStorage.setItem('repe_scenarios', JSON.stringify(scenarios));
-            loadScenarios(scenarioName);
-        }
-    });
-    
-    $('scenarioSelect').addEventListener('change', (e) => {
-        const scenarioName = e.target.value;
-        const scenarios = JSON.parse(localStorage.getItem('repe_scenarios') || '{}');
-        const builtInScenarios = {
-            'Base Case': defaultInputs,
-            'Upside Case': { ...defaultInputs, rentGrowth: '4.5%', exitCap: '5.25%' },
-            'Downside Case': { ...defaultInputs, rentGrowth: '2.5%', exitCap: '6.0%' }
-        };
-        const selected = scenarios[scenarioName] || builtInScenarios[scenarioName];
-        
-        if (selected) {
-            Object.keys(defaultInputs).forEach(key => {
-                const el = $(key);
-                if(el) {
-                    const newValue = selected[key] !== undefined ? selected[key] : defaultInputs[key];
-                    if(el.type === 'checkbox') {
-                        el.checked = newValue;
-                    } else {
-                        el.value = newValue;
-                         el.dispatchEvent(new Event('blur'));
+            const revealElements = document.querySelectorAll('.reveal');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
                     }
-                }
+                });
+            }, { threshold: 0.1 });
+            revealElements.forEach(el => observer.observe(el));
+            
+            const menuButton = document.getElementById('menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            function toggleMenu() {
+                if (!menuButton || !mobileMenu) return;
+                const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+                menuButton.setAttribute('aria-expanded', !isExpanded);
+                mobileMenu.classList.toggle('hidden');
+                document.body.style.overflow = isExpanded ? '' : 'hidden';
+            }
+
+            if (menuButton) {
+                menuButton.addEventListener('click', toggleMenu);
+            }
+            
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (mobileMenu && !mobileMenu.classList.contains('hidden')) toggleMenu();
+                });
             });
-            calculateModelWrapper();
-        }
-    });
-    
-    // Finalize setup
-    loadScenarios();
-    calculateModelWrapper(); // Initial calculation
-}
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && mobileMenu && !mobileMenu.classList.contains('hidden')) toggleMenu();
+            });
+            
+            window.addEventListener('hashchange', () => {
+                if (mobileMenu && !mobileMenu.classList.contains('hidden')) toggleMenu();
+            });
 
-function loadScenarios(setSelected) {
-    const select = $('scenarioSelect');
-    const scenarios = JSON.parse(localStorage.getItem('repe_scenarios') || '{}');
-    select.innerHTML = '';
-    const builtIn = ['Base Case', 'Upside Case', 'Downside Case'];
-    builtIn.forEach(name => select.innerHTML += `<option value="${name}">${name}</option>`);
-    Object.keys(scenarios).forEach(name => {
-        if (!builtIn.includes(name)) {
-             select.innerHTML += `<option value="${name}">${name}</option>`;
-        }
-    });
-    if(setSelected) select.value = setSelected;
-}
+            const form = document.getElementById('contact-form');
+            const formStatus = document.getElementById('form-status');
 
-document.querySelectorAll('.sidebar-link').forEach(tab => {
-    tab.addEventListener('click', e => {
-        e.preventDefault();
-        const targetId = tab.getAttribute('href').substring(1);
-        document.querySelectorAll('main > section[id^="tab-"]').forEach(s => s.classList.add('hidden'));
-        document.querySelectorAll('.sidebar-link').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        $(targetId).classList.remove('hidden');
-        if (window.innerWidth < 1024) $('sidebar').classList.add('-translate-x-full');
-        localStorage.setItem('repe_activeTab', targetId);
-    });
-});
-$('sidebarToggle').addEventListener('click', () => $('sidebar').classList.toggle('-translate-x-full'));
-window.addEventListener('resize', () => { if (window.innerWidth >= 1024) $('sidebar').classList.remove('-translate-x-full'); });
-window.addEventListener('DOMContentLoaded', () => {
-    const startTab = localStorage.getItem('repe_activeTab') || 'tab-inputs';
-    document.querySelector(`a[href="#${startTab}"]`)?.click();
-    initializeApp();
-    $('calcBtn').addEventListener('click', calculateModelWrapper);
-});
-</script>
-
+            async function handleSubmit(event) {
+                event.preventDefault();
+                const data = new FormData(event.target);
+                try {
+                    // NOTE: Replace with your actual Formspree endpoint ID
+                    const response = await fetch("https://formspree.io/f/YOUR_REAL_FORM_ID", {
+                        method: 'POST',
+                        body: data,
+                        headers: { 'Accept': 'application/json' }
+                    });
+                    if (response.ok) {
+                        formStatus.textContent = "Thank you for your message!";
+                        formStatus.className = 'mt-4 text-sm text-left text-green-600';
+                        form.reset();
+                    } else {
+                        formStatus.textContent = "Oops! There was a problem submitting your form.";
+                        formStatus.className = 'mt-4 text-sm text-left text-red-600';
+                    }
+                } catch (error) {
+                    formStatus.textContent = "Oops! There was a problem submitting your form.";
+                    formStatus.className = 'mt-4 text-sm text-left text-red-600';
+                }
+            }
+            if(form) {
+                form.addEventListener("submit", handleSubmit);
+            }
+        });
+    </script>
 </body>
 </html>
 
