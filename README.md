@@ -32,4 +32,4 @@ Currently pursuing advanced certification in AI/ML from IIT Madras, building pro
 ## Contact  
 - Email: gautam.kale1999@gmail.com  
 - LinkedIn: https://www.linkedin.com/in/gautam-kale-206a81171/ 
-- Notion: https://bit.ly/Gautam-Kale-Projects
+- Notion: https://bit.ly/Gautam_Kale-Projects
