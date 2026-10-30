@@ -2,7 +2,7 @@
 
 **Investment Banking Operations | Financial Analysis | Capital Markets | Workflow & Data Automation**
 
-I am a finance and technology professional with **2.6 years of experience at JPMorgan Chase** across Wholesale Lending operations and Agency Trade Services within Investment Banking. My experience includes syndicated-loan servicing, cash and payoff operations, trade enrichment, settlement controls, counterparty reference-data validation, exception resolution and operational reporting.
+I am a finance and technology professional with **2.8 years of experience at JPMorgan Chase** across Wholesale Lending operations and Agency Trade Services within Investment Banking. My experience includes syndicated-loan servicing, cash and payoff operations, trade enrichment, settlement controls, counterparty reference-data validation, exception resolution and operational reporting.
 
 I combine this banking-operations foundation with financial modelling and hands-on projects in Python, SQL, workflow automation and data controls. I am particularly interested in investment banking, capital markets, financial analysis and technology-enabled process improvement.
 
